@@ -1,0 +1,12 @@
+import React from 'react'
+
+
+function LoginPage() {
+  return (
+    <div className='container-fluid'>
+      <button type="button" className="btn btn-primary">Primary</button>
+    </div>
+  )
+}
+
+export default LoginPage
