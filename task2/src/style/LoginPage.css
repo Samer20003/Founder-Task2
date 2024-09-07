@@ -34,3 +34,6 @@
     transform: scale(1.05); /* Slight scale on hover */
   }
 
+.Account-btn:hover{
+    color: aqua;
+}

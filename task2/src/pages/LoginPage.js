@@ -1,15 +1,48 @@
 import React, {useState} from 'react'
 import "../style/LoginPage.css"
+import { useNavigate } from'react-router-dom';
 function LoginPage() {
-    const [validate, setValidated] = useState(false)
+    const navigate = useNavigate();
+    const [validate, setValidated] = useState(false);
+    const [email , setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const validateForm = (e) => {
         e.preventDefault()
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
             e.preventDefault();
             e.stopPropagation();
-        }
+        } 
+          
         setValidated(true);
+    }
+
+    const haveAnAccountHandler = () =>{
+        navigate('/Regstraion');
+    }
+
+    const validateInformation = (e) =>{
+
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+      const validEmail = users.find(user => user.email === email);
+      const validPassword = users.find(user => user.password === password);
+
+      if(validEmail && validPassword){
+        navigate('/HomePage');
+      } else {
+        alert("Invalid Email or Password")
+      }
+
+        // const foundValidEmail = users.find(user => user.email === email);
+
+        // const fondeValidPassword = users.find(user => user.password === password); 
+
+        // if(foundValidEmail && fondeValidPassword) {
+        //     navigate('HomePage')
+        // } else {
+        //     alert("Invalid Email or Password")
+        // }
     }
   return (
     <div className='container-fluid min-vh-100 d-flex justify-content-center align-items-center main'>
@@ -25,7 +58,9 @@ function LoginPage() {
                         <div class="mb-3">
                             <label for="exampleInputEmail1" className="form-label">Email address</label>
                             <input
-                             type="email"
+                              type="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
                               className="form-control rounded" 
                               id="exampleInputEmail1" 
                               required
@@ -36,6 +71,8 @@ function LoginPage() {
                             <label for="exampleInputPassword1" className="form-label">Password</label>
                             <input 
                              type="password"
+                             value={password}
+                             onChange={(e) => setPassword(e.target.value)}
                              className="form-control rounded" 
                              id="exampleInputPassword1"
                              required
@@ -43,8 +80,11 @@ function LoginPage() {
                          <div className="invalid-feedback">Please provide a password.</div>
 
                         </div>
+                        <p> Dosent have account? 
+                                <button className='cursor-pointer bg-transparent border border-0 Account-btn' onClick={haveAnAccountHandler}>Create one!</button>
+                            </p>
                     
-                        <button type="submit" className="btn ps-5 pe-5 rounded login-btn">Login</button>
+                        <button type="submit" onClick={validateInformation} className="btn ps-5 pe-5 rounded login-btn">Login</button>
                         </form>
                         
                 </div>

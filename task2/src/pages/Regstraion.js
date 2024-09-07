@@ -81,9 +81,9 @@ function Registration() {
                                 <div className="invalid-feedback">Please provide a password.</div>
                             </div>
                             <p>Have an account? 
-                                <button className='cursor-pointer bg-transparent border border-0' onClick={haveAnAccountHandler}>Sign in</button>
+                                <button className='cursor-pointer bg-transparent border border-0 Account-btn' onClick={haveAnAccountHandler}>Sign in</button>
                             </p>
-                            <button type="submit" className="btn ps-5 pe-5 rounded login-btn">Sign up</button>
+                            <button type="submit" className="btn ps-5 pe-5 rounded login-btn ">Sign up</button>
                         </form>
                     </div>
                 </div>
