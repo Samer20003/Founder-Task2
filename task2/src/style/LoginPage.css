@@ -1,4 +1,4 @@
-.container-fluid{
+.main{
     background: linear-gradient(90deg, #C7C5F4 0%, #9E8BD8 50%, #776BCC 100%);
 }
 .login-wrapper{
@@ -6,6 +6,8 @@
     backdrop-filter: blur(20px);
     background-color: transparent;
     border-radius: 2px solid rgba(255, 255, 255, .2);
+    max-width: 600px;
+    width: 100%;
 
    
 }
@@ -17,16 +19,16 @@
     margin-top: 10px;
     padding: 10px;
     font-size: 16px;
-    color: white;
+    color: black;
 }
-.btn {
+.login-btn {
     transition: background-color 0.3s ease, transform 0.3s ease;
     border: 1px solid white;
     margin-top: 40px;
    width: 100%;
     
   }
-  .btn:hover {
+  .login-btn:hover {
     border: 1px solid white;
     background-color: #776BCC;
     transform: scale(1.05); /* Slight scale on hover */
