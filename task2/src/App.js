@@ -16,8 +16,8 @@ function App() {
         <Route path="/LoginPage" element={<LoginPage />} />
         <Route path="/Regstraion" element={<Regstraion />} />
         <Route path="/HomePage" element={<HomePage />} />
-       
-      
+        <Route path="/ListView" element={<ListView />} />
+
       </Routes>
    </BrowserRouter>
     </LoggedInUserProvider>
