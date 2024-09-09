@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLogedInUser } from '../Context/logedInUser';
 import IconButton from '@mui/material/IconButton';
-import MoreIcon from '@mui/icons-material/MoreVert'; // Ensure you import MoreVert icon
+import MoreIcon from '@mui/icons-material/MoreVert'; 
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -20,9 +20,9 @@ function ListPosts() {
     saveUpdatedPost
   } = useLogedInUser();
 
-  // State for MUI Menu
+  
   const [anchorEl, setAnchorEl] = useState(null);
-  const handleClick = (event) => {
+  const handleClickForTheIcon = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -44,19 +44,19 @@ function ListPosts() {
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center">
                 <h5 className="card-title">Post by {post.userEmail}</h5>
-                {/* MUI IconButton and Menu placed next to the email */}
+             
                 {loggedInUser && loggedInUser.email === post.userEmail && (
                   <>
                     <IconButton
                       size="large"
                       aria-label="display more actions"
                       edge="end"
-                      onClick={handleClick}
+                      onClick={handleClickForTheIcon}
                     >
                       <MoreIcon />
                     </IconButton>
 
-                    {/* Menu for the actions */}
+                
                     <Menu
                       anchorEl={anchorEl}
                       open={Boolean(anchorEl)}
