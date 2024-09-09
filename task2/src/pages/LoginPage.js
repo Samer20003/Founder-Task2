@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import "../style/LoginPage.css"
 import { useNavigate } from'react-router-dom';
+import {useLogedInUser} from '../Context/logedInUser'
 function LoginPage() {
     const navigate = useNavigate();
     const [validate, setValidated] = useState(false);
     const [email , setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const {setLoggedInUser} = useLogedInUser();
     const validateForm = (e) => {
         e.preventDefault()
         const form = e.currentTarget;
@@ -23,26 +25,19 @@ function LoginPage() {
 
     const validateInformation = (e) =>{
 
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const users = JSON.parse(localStorage.getItem("users") || []);
 
-      const validEmail = users.find(user => user.email === email);
-      const validPassword = users.find(user => user.password === password);
-
-      if(validEmail && validPassword){
+      const validUser = users.find (user => user.email === email  && user.password === password)
+      if(validUser){
+        const loogedInUser = {...validUser, isLoggedIn: true};
+        localStorage.setItem('logedInUser', JSON.stringify(loogedInUser));
+        
+        setLoggedInUser(loogedInUser)
         navigate('/HomePage');
       } else {
         alert("Invalid Email or Password")
       }
 
-        // const foundValidEmail = users.find(user => user.email === email);
-
-        // const fondeValidPassword = users.find(user => user.password === password); 
-
-        // if(foundValidEmail && fondeValidPassword) {
-        //     navigate('HomePage')
-        // } else {
-        //     alert("Invalid Email or Password")
-        // }
     }
   return (
     <div className='container-fluid min-vh-100 d-flex justify-content-center align-items-center main'>
