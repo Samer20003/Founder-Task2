@@ -6,20 +6,38 @@ function Post() {
   const [postBody, setPostBody] = useState('');
   const [postImageUrl, setPostImageUrl] = useState('');
   const {loggedInUser ,addNewPost} = useLogedInUser();
+   // Generating id for the posts
+
+   const initialziedPostID = () =>{
+    if(!localStorage.getItem('postId')){
+      localStorage.setItem('postId', '0');
+    }
+  }
+
+  const generateId = () =>{
+    let postId = Number(localStorage.getItem('postId')) || 0;
+    postId += 1;
+    localStorage.setItem('postId', postId);
+    return postId;
+  }
+
+
   const handlePostSubmit = (e) =>{
      e.preventDefault();
+     initialziedPostID();
+     const postId = generateId();
      const newPost = {
+      postId,
       postBody,
       postImageUrl,
       userEmail:loggedInUser.email,
       createdDate: new Date().toISOString()
     };
     addNewPost(newPost);
-     setPostBody(''); 
-     setPostImageUrl('');
+    
     
   }
-  
+ 
   return (
     <div className='container-fluid'>
       <div className="card" style={{width: "18rem"}}>

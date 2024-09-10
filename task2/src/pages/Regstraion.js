@@ -31,7 +31,6 @@ function Registration() {
 
             localStorage.setItem('users', JSON.stringify(users));
 
-            console.log("users is" , users);
             navigate('/LoginPage')
 
         }

@@ -15,6 +15,7 @@ export function LoggedInUserProvider ({children}){
         if(userLogedInStorge && userLogedInStorge.isLoggedIn){
             setLoggedInUser(userLogedInStorge);
         }
+       console.log(posts)
     }, []);
 
     const addNewPost = (newPost) => {
@@ -27,6 +28,7 @@ export function LoggedInUserProvider ({children}){
         const deletePosts = posts.filter((_, i) => i!== index)
         setPosts(deletePosts);
         localStorage.setItem("posts", JSON.stringify(deletePosts));
+    
       }
 
 
