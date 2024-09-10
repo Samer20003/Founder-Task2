@@ -30,10 +30,14 @@ function Post() {
       postId,
       postBody,
       postImageUrl,
-      userEmail:loggedInUser.email,
+      userEmail:loggedInUser?.email,
       createdDate: new Date().toISOString()
     };
+
+    console.log(newPost);
+  
     addNewPost(newPost);
+
     
     
   }
