@@ -1,7 +1,5 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
-import {useLogedInUser} from '../Context/logedInUser'
-import Post from "../components/Post"
 import ListPosts from '../components/ListPosts'
 import { useNavigate } from 'react-router-dom'
 function HomePage() {

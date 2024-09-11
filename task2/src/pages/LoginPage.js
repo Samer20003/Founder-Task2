@@ -17,6 +17,7 @@ function LoginPage() {
         } 
           
         setValidated(true);
+        validateInformation();
     }
 
     const haveAnAccountHandler = () =>{

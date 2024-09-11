@@ -10,14 +10,6 @@ function ListPosts() {
     loggedInUser,
     posts,
     handleDeletePost,
-    handleUpdatePost,
-    setEditingIndex,
-    setUpdateBody,
-    setUpdateImageUrl,
-    editingIndex,
-    updateBody,
-    updateImageUrl,
-    saveUpdatedPost
   } = useLogedInUser();
 
   const navigate = useNavigate();
@@ -29,9 +21,7 @@ function ListPosts() {
     setAnchorEl(null);
   };
 
-  const handleCancel = () => {
-    setEditingIndex(null);
-  };
+
 
   return (
     <div className="row d-flex justify-content-center align-items-center pt-5 mt-5">
@@ -43,7 +33,7 @@ function ListPosts() {
             )}
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center">
-                <h5 className="card-title">Post by {post.userEmail}</h5>
+                <h5 className="card-title">Post by {post.userName}</h5>
              
                 {loggedInUser && loggedInUser.email === post.userEmail && (
                   <>
@@ -72,7 +62,7 @@ function ListPosts() {
                     >
                       <MenuItem onClick={() => {
                         navigate(`/updateAndAddPost/${post.postId}`)
-                        handleUpdatePost(index);
+                       
                         handleClose();
                       }}>
                         Edit

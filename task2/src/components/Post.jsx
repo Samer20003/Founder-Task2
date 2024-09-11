@@ -22,9 +22,14 @@ function Post() {
     localStorage.setItem('postId', postId);
     return postId;
   }
-
-
+  
   const handlePostSubmit = (e) =>{
+    const currentUser = users.find(user => user.email === loggedInUser?.email)
+
+    if(currentUser){
+      const userName = currentUser.userName;
+    
+    
      e.preventDefault();
      initialziedPostID();
      const postId = generateId();
@@ -33,13 +38,14 @@ function Post() {
       postBody,
       postImageUrl,
       userEmail:loggedInUser?.email,
+      userName: userName,
       createdDate: new Date().toISOString()
     };
 
     navigate('/HomePage')
     
   
-    addNewPost(newPost);
+    addNewPost(newPost);}
 
     
     

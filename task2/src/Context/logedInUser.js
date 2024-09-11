@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 const LoggedUserContext = createContext();
 
 export function LoggedInUserProvider({ children }) {
@@ -8,6 +7,7 @@ export function LoggedInUserProvider({ children }) {
   const [editingIndex, setEditingIndex] = useState(null);
   const [updateBody, setUpdateBody] = useState('');
   const [updateImageUrl, setUpdateImageUrl] = useState('');
+  const [loading, setLoading] = useState(true);
 
  
   useEffect(() => {
@@ -22,7 +22,12 @@ export function LoggedInUserProvider({ children }) {
       setPosts(savedPosts); 
  
     }
+    setLoading(false);
+
   }, []);
+
+
+  
 
   const addNewPost = (newPost) => {
     const updatedPosts = [...posts, newPost];
@@ -69,7 +74,8 @@ export function LoggedInUserProvider({ children }) {
     editingIndex,
     updateBody,
     updateImageUrl,
-    saveUpdatedPost
+    saveUpdatedPost,
+    loading
   };
 
   return (
