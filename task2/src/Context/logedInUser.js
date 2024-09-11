@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const LoggedUserContext = createContext();
 
 export function LoggedInUserProvider({ children }) {
@@ -43,6 +43,7 @@ export function LoggedInUserProvider({ children }) {
       setUpdateBody(updatePosts.postBody);
       setUpdateImageUrl(updatePosts.postImageUrl);
     }
+    console.log("the index is"+ index);
   };
 
   const saveUpdatedPost = (index) => {

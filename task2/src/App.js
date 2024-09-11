@@ -9,6 +9,7 @@ import Post from './components/Post';
 import {LoggedInUserProvider} from "./Context/logedInUser"
 import ListView from './components/ListPosts';
 import AddAndUpdatePage from './pages/AddAndUpdatePage';
+
 function App() {
   return (
     <LoggedInUserProvider>
@@ -17,8 +18,9 @@ function App() {
         <Route path="/LoginPage" element={<LoginPage />} />
         <Route path="/Regstraion" element={<Regstraion />} />
         <Route path="/HomePage" element={<HomePage />} />
+        <Route path="/updateAndAddPost/:id" element={<AddAndUpdatePage />} />
         <Route path="/ListView" element={<ListView />} />
-        <Route path="/niger" element={<AddAndUpdatePage />} />
+     
 
       </Routes>
    </BrowserRouter>

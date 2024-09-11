@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
 import {useLogedInUser} from '../Context/logedInUser'
 import ListPosts from './ListPosts';
+import { useNavigate } from 'react-router-dom';
 function Post() {
+  const navigate = useNavigate();
   const users = JSON.parse(localStorage.getItem("users") || "[]" );
   const [postBody, setPostBody] = useState('');
   const [postImageUrl, setPostImageUrl] = useState('');
@@ -34,7 +36,8 @@ function Post() {
       createdDate: new Date().toISOString()
     };
 
-    console.log(newPost);
+    navigate('/HomePage')
+    
   
     addNewPost(newPost);
 
@@ -43,15 +46,22 @@ function Post() {
   }
  
   return (
-    <div className='container-fluid'>
-      <div className="card" style={{width: "18rem"}}>
+    
+    <div className='row justify-content-center '>
+      <div className='col-sm-12 col-md-8 col-lg-6 '>
+      <div className="card bg-body-tertiary rounded " style={{ maxWidth: "700px", width:"100%" }} >
         <div className="card-body">
-          <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-          <textarea 
-            className="card-text" 
-            placeholder="Write your post..."
-            onChange={(e) => {setPostBody(e.target.value)}}
-          ></textarea>
+        <div class="form-floating">
+          <textarea
+           class="form-control"
+            placeholder="Leave a comment here" 
+            id="floatingTextarea2" 
+            style={{height: "100px"}}
+            onChange={(e) => {setPostBody(e.target.value)}}>
+          </textarea>
+          <label for="floatingTextarea2">Write your post</label>
+           </div>
+         
         <input
             type="text"
             placeholder="Enter image URL..."
@@ -59,10 +69,11 @@ function Post() {
             onChange={(e) => setPostImageUrl(e.target.value)}
             className="form-control mt-2"
           />
-          <button onClick={handlePostSubmit}>Submit Post</button>
+          <button class="btn btn-secondary mt-4 w-100 text-center " onClick={handlePostSubmit}>Submit Post</button>
         </div>
-        
-</div>
+       </div>
+      </div>
+ 
     </div>
   )
 }

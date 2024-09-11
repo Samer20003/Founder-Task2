@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert'; 
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import { useNavigate } from 'react-router-dom';
 function ListPosts() {
   const { 
     loggedInUser,
@@ -20,7 +20,7 @@ function ListPosts() {
     saveUpdatedPost
   } = useLogedInUser();
 
-  
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClickForTheIcon = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,6 +71,7 @@ function ListPosts() {
                       }}
                     >
                       <MenuItem onClick={() => {
+                        navigate(`/updateAndAddPost/${post.postId}`)
                         handleUpdatePost(index);
                         handleClose();
                       }}>
@@ -94,35 +95,7 @@ function ListPosts() {
                 </small>
               </p>
 
-              {editingIndex === index ? (
-                <>
-                  <textarea
-                    value={updateBody}
-                    onChange={(e) => setUpdateBody(e.target.value)}
-                    placeholder="Update post content"
-                    className="form-control mb-2"
-                  />
-                  <input
-                    type="text"
-                    value={updateImageUrl}
-                    onChange={(e) => setUpdateImageUrl(e.target.value)}
-                    placeholder="Update image URL"
-                    className="form-control mb-2"
-                  />
-                  <button
-                    className="btn btn-success me-2"
-                    onClick={() => saveUpdatedPost(index)}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : null}
+        
             </div>
           </div>
         </div>

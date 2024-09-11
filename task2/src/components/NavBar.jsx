@@ -13,8 +13,8 @@ function NavBar() {
       
   }
   return (
-<nav className="navbar navbar-expand-lg bg-body-tertiary">
-  <div className="container">
+<nav className="navbar navbar-expand-lg ">
+  <div className="container bg-b">
     <a className="navbar-brand" href="#">Navbar</a>
     <button type="button" onClick={handleClose} className="btn btn-secondary">Logout</button>
   </div>
