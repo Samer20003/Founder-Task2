@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 function HomePage() {
   const navigate = useNavigate();
   return (
-    <div className ="container-fluid bg-dark-subtle">
+    <div className ="container-fluid bg-dark-subtle ">
       <div className='row'>
         <div className = "col-12">
       <NavBar/>

@@ -33,7 +33,7 @@ function ListPosts() {
             )}
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center">
-                <h5 className="card-title">Post by {post.userName}</h5>
+                <h6 className="card-title"> {post.userName}</h6>
              
                 {loggedInUser && loggedInUser.email === post.userEmail && (
                   <>
@@ -77,13 +77,13 @@ function ListPosts() {
                   </>
                 )}
               </div>
-              
-              <p className="card-text">{post.postBody}</p>
-              <p className="card-text">
-                <small className="text-muted">
+              <p className="card-text pb=2">
+                <small className="text-muted  ">
                   Posted on {new Date(post.createdDate).toLocaleDateString()}
                 </small>
               </p>
+              <p className="card-text">{post.postBody}</p>
+            
 
         
             </div>
