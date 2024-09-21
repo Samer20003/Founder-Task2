@@ -12,7 +12,8 @@ function Registration() {
         navigate('/LoginPage');
     };
 
-    const validateInformation = (e) => {
+
+    const validateInformation =  async (e) => {
         e.preventDefault();
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
@@ -23,16 +24,28 @@ function Registration() {
             const email = form.querySelector("#email").value;
             const password = form.querySelector("#password").value;
 
-            const newUser = {userName, email, password};
+            const newUser = {
+                 username: userName,
+                 email: email,
+                 password: password};
 
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-
-            users = [...users, newUser]
-
-            localStorage.setItem('users', JSON.stringify(users));
-
-            navigate('/LoginPage')
-
+            try {
+                const response = await fetch("http://127.0.0.1:8000/signup", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newUser)
+                });
+                if (response.ok) {
+                    navigate('/LoginPage');
+                } else {
+                    const errorMessage = await response.json();
+                    console.error('Error:', errorMessage);
+                }    
+            } catch (error){
+                console.log('Error:', error);
+            }
         }
         setValidated(true);
     };

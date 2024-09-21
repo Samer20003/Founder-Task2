@@ -5,7 +5,7 @@ function Protected({children}) {
     const { loggedInUser, loading } = useLogedInUser();
 
  if(loading){
-    return <div>fuck your bitch ass niga </div>
+    return <div>loading</div>
  }
     if(loggedInUser && loggedInUser.isLoggedIn){
         return children;
