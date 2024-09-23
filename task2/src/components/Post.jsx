@@ -1,87 +1,84 @@
-import React, {useState} from 'react'
-import {useLogedInUser} from '../Context/logedInUser'
-import ListPosts from './ListPosts';
+import React, { useState } from 'react';
+import { useLogedInUser } from '../Context/logedInUser';
 import { useNavigate } from 'react-router-dom';
+
 function Post() {
   const navigate = useNavigate();
-  const users = JSON.parse(localStorage.getItem("users") || "[]" );
+  const users = JSON.parse(localStorage.getItem("users") || "[]");
   const [postBody, setPostBody] = useState('');
   const [postImageUrl, setPostImageUrl] = useState('');
-  const {loggedInUser ,addNewPost} = useLogedInUser();
-   // Generating id for the posts
+  const { loggedInUser, addNewPost } = useLogedInUser();
 
-   const initialziedPostID = () =>{
-    if(!localStorage.getItem('postId')){
-      localStorage.setItem('postId', '0');
+
+  const handlePostSubmit = async (e) => {
+
+    
+    try {
+      const body = postBody;
+      const img_url = postImageUrl;
+      const user = loggedInUser.id;
+      const pup_date = new Date().toISOString();
+
+      const newPost ={
+        body,
+        img_url,
+        user,
+        pup_date,
+      }
+      const response = await fetch("http://localhost:8000/posts/add_post", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newPost),
+      });
+      if (response.ok){
+        const data = await response.json();
+        console.log('New post added successfully', data);
+        navigate('/HomePage');
+        addNewPost(data);
+      } else {
+        console.error ('Failed to add')
+      }
     }
-  }
+    catch (error) {
+      console.error('Error adding post', error);
+    }
+  };
 
-  const generateId = () =>{
-    let postId = Number(localStorage.getItem('postId')) || 0;
-    postId += 1;
-    localStorage.setItem('postId', postId);
-    return postId;
-  }
-  
-  const handlePostSubmit = (e) =>{
-    const currentUser = users.find(user => user.email === loggedInUser?.email)
-
-    if(currentUser){
-      const userName = currentUser.userName;
-    
-    
-     e.preventDefault();
-     initialziedPostID();
-     const postId = generateId();
-     const newPost = {
-      postId,
-      postBody,
-      postImageUrl,
-      userEmail:loggedInUser?.email,
-      userName: userName,
-      createdDate: new Date().toISOString()
-    };
-
-    navigate('/HomePage')
-    
-  
-    addNewPost(newPost);}
-
-    
-    
-  }
- 
   return (
-    
-    <div className='row justify-content-center '>
-      <div className='col-sm-12 col-md-8 col-lg-6 '>
-      <div className="card bg-body-tertiary rounded " style={{ maxWidth: "700px", width:"100%" }} >
-        <div className="card-body">
-        <div class="form-floating">
-          <textarea
-           class="form-control"
-            placeholder="Leave a comment here" 
-            id="floatingTextarea2" 
-            style={{height: "100px"}}
-            onChange={(e) => {setPostBody(e.target.value)}}>
-          </textarea>
-          <label for="floatingTextarea2">Write your post</label>
-           </div>
-         
-        <input
-            type="text"
-            placeholder="Enter image URL..."
-            value={postImageUrl}
-            onChange={(e) => setPostImageUrl(e.target.value)}
-            className="form-control mt-2"
-          />
-          <button class="btn btn-secondary mt-4 w-100 text-center " onClick={handlePostSubmit}>Submit Post</button>
+    <div className='row justify-content-center'>
+      <div className='col-sm-12 col-md-8 col-lg-6'>
+        <div className="card bg-body-tertiary rounded" style={{ maxWidth: "700px", width: "100%" }}>
+          <div className="card-body">
+            <div className="form-floating">
+              <textarea
+                className="form-control"
+                placeholder="Leave a comment here"
+                id="floatingTextarea2"
+                style={{ height: "100px" }}
+                onChange={(e) => { setPostBody(e.target.value); }}
+              ></textarea>
+              <label htmlFor="floatingTextarea2">Write your post</label>
+            </div>
+            <input
+              type="text"
+              placeholder="Enter image URL..."
+              value={postImageUrl}
+              onChange={(e) => setPostImageUrl(e.target.value)}
+              className="form-control mt-2"
+            />
+            <button
+              className="btn btn-secondary mt-4 w-100 text-center"
+              onClick={handlePostSubmit}
+            >
+              Submit Post
+            </button>
+          </div>
         </div>
-       </div>
       </div>
- 
     </div>
-  )
+  );
 }
 
-export default Post
+export default Post;

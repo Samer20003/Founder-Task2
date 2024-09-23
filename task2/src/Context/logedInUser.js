@@ -35,10 +35,24 @@ export function LoggedInUserProvider({ children }) {
     localStorage.setItem("posts", JSON.stringify(updatedPosts));
   };
 
-  const handleDeletePost = (index) => {
+  const handleDeletePost = async (index) => {
+    const post_id = posts[index].id;
+    try{
+    const response = await fetch(`http://localhost:8000/posts/delete_post/${post_id}/`, {
+      method: "DELETE",
+    });
+    if (response.status === 204){
     const deletePosts = posts.filter((_, i) => i !== index);
     setPosts(deletePosts);
     localStorage.setItem("posts", JSON.stringify(deletePosts));
+      
+    console.log("Post deleted successfully");
+  } else {
+    console.log("Failed to delete post");
+  }
+} catch (error) {
+  console.log("Error deleting post:", error);
+}
   };
 
   const handleUpdatePost = (index) => {

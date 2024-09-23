@@ -41,7 +41,8 @@ function LoginPage() {
                 const data = await response.json();
                 const loggedInUser = {...data.user, isLoggedIn: true};
                 setLoggedInUser(loggedInUser);
-                localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser)); 
+                localStorage.setItem('logedInUser', JSON.stringify(loggedInUser)); 
+                console.log(data);
                 navigate('/HomePage');       
             } else {
                 alert('Invalid email or password');
