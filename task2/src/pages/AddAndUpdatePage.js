@@ -16,18 +16,19 @@ function AddAndUpdatePage() {
    } = useLogedInUser();
 
    const { id } = useParams();
-   const postIndex = posts.findIndex((p) => p.postId === parseInt(id, 10)); // i use the findIndex insted of find because my functiones dpeneds on the index not the id
-
+   const postIndex = posts.findIndex((p) => p.id === parseInt(id, 10)); // i use the findIndex insted of find because my functiones dpeneds on the index not the id
    useEffect(() => {
       if (id && postIndex >= 0) {
          const post = posts[postIndex];
-         setUpdateBody(post.postBody);
-         setUpdateImageUrl(post.postImageUrl);
+         setUpdateBody(post.body);
+         setUpdateImageUrl(post.img_url);
          setEditingIndex(postIndex); 
       }
    }, [id, postIndex, posts, setUpdateBody, setUpdateImageUrl, setEditingIndex]);
 
+   console.log("post index value is ", postIndex);
    const handleUpdate = (e) => {
+  
       e.preventDefault();
       saveUpdatedPost(postIndex);  // send the index of the post 
       navigate('/HomePage');

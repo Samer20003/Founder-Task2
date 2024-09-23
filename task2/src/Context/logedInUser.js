@@ -65,13 +65,41 @@ export function LoggedInUserProvider({ children }) {
     console.log("the index is"+ index);
   };
 
-  const saveUpdatedPost = (index) => {
-    const updatedPost = [...posts];
-    if (updatedPost[index].userEmail === loggedInUser.email) {
-      updatedPost[index].postBody = updateBody;
-      updatedPost[index].postImageUrl = updateImageUrl;
-      localStorage.setItem("posts", JSON.stringify(updatedPost));
-      setEditingIndex(null);
+  const saveUpdatedPost = async (index) => {
+    const postToUpdate = posts[index];
+    console.log("where the fucken ",postToUpdate);
+    if (postToUpdate && postToUpdate.user.email === loggedInUser.email) {
+      const post_id = postToUpdate.id;
+  
+      try {
+        const response = await fetch(`http://localhost:8000/posts/edit_post/${post_id}/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            body: updateBody,
+            img_url: updateImageUrl,
+          }),
+        });
+  
+        if (response.ok) {
+          const updatedPost = await response.json();
+          const updatedPosts = [...posts];
+          updatedPosts[index].postBody = updatedPost.body;
+          updatedPosts[index].postImageUrl = updatedPost.img_url;
+          setPosts(updatedPosts);
+          localStorage.setItem('posts', JSON.stringify(updatedPosts));
+          setEditingIndex(null);
+          console.log('Updated successfully');
+        } else {
+          console.log('Failed to update post');
+        }
+      } catch (error) {
+        console.log('Error updating post:', error);
+      }
+    } else {
+      console.error('Post not found or user not authorized to update');
     }
   };
 

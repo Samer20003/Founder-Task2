@@ -87,7 +87,7 @@ function ListPosts() {
                       }}
                     >
                       <MenuItem onClick={() => {
-                        navigate(`/updateAndAddPost/${post.postId}`)
+                        navigate(`/updateAndAddPost/${post.id}`)
                        
                         handleClose();
                       }}>
