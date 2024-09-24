@@ -10,7 +10,8 @@ function ListPosts() {
     loggedInUser,
     posts,
     handleDeletePost,
-    setPosts
+    setPosts,
+    fetchPosts
   } = useLogedInUser();
   
   const navigate = useNavigate();
@@ -22,32 +23,11 @@ function ListPosts() {
     setAnchorEl(null);
   };
 
-  const showPosts = async () =>{
-    try{
-      const response = await fetch("http://127.0.0.1:8000/posts/post_list_view", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${loggedInUser?.token}`,
-        },
-      });
-      if(response.ok){
-        const data = await response.json();
-        localStorage.setItem("posts", JSON.stringify(data)); 
-        setPosts(data);
-       
-       
-      } else {
-        console.error("Failed to fetch posts", response.status);
-      }
-    } catch (error){
-      console.error("Error fetching posts", error);
-    }
-  }
-  console.log("the posts is ", posts);
+
+ 
  useEffect(()=>{
 
-  showPosts();
+  fetchPosts()
  },[])
   return (
     <div className="row d-flex justify-content-center align-items-center pt-5 mt-5">

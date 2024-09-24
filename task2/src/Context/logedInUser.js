@@ -3,7 +3,7 @@ const LoggedUserContext = createContext();
 
 export function LoggedInUserProvider({ children }) {
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const [posts, setPosts] =useState (JSON.parse(localStorage.getItem("posts") || "[]")); 
+  const [posts, setPosts] =useState ([]); 
   const [editingIndex, setEditingIndex] = useState(null);
   const [updateBody, setUpdateBody] = useState('');
   const [updateImageUrl, setUpdateImageUrl] = useState('');
@@ -29,22 +29,47 @@ export function LoggedInUserProvider({ children }) {
 
   
 
+  const fetchPosts = async () => {
+    if (loggedInUser) {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/posts/post_list_view", {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInUser.token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data); 
+        } else {
+          console.error("Failed to fetch posts", response.status);
+        }
+      } catch (error) {
+        console.error("Error fetching posts", error);
+      }
+    }
+  };
+
   const addNewPost = (newPost) => {
     const updatedPosts = [...posts, newPost];
+    console.log(updatedPosts)
     setPosts(updatedPosts);
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    
   };
 
   const handleDeletePost = async (index) => {
     const post_id = posts[index].id;
+    console.log("post_id is ",post_id);
     try{
     const response = await fetch(`http://localhost:8000/posts/delete_post/${post_id}/`, {
       method: "DELETE",
     });
     if (response.status === 204){
-    const deletePosts = posts.filter((_, i) => i !== index);
+    const deletePosts = posts.filter((_, i) => i !== post_id);
     setPosts(deletePosts);
-    localStorage.setItem("posts", JSON.stringify(deletePosts));
+   
       
     console.log("Post deleted successfully");
   } else {
@@ -67,7 +92,7 @@ export function LoggedInUserProvider({ children }) {
 
   const saveUpdatedPost = async (index) => {
     const postToUpdate = posts[index];
-    console.log("where the fucken ",postToUpdate);
+   
     if (postToUpdate && postToUpdate.user.email === loggedInUser.email) {
       const post_id = postToUpdate.id;
   
@@ -86,12 +111,11 @@ export function LoggedInUserProvider({ children }) {
         if (response.ok) {
           const updatedPost = await response.json();
           const updatedPosts = [...posts];
-          updatedPosts[index].postBody = updatedPost.body;
-          updatedPosts[index].postImageUrl = updatedPost.img_url;
+          updatedPosts[index].body = updatedPost.body;
+          updatedPosts[index].img_url = updatedPost.img_url;
           setPosts(updatedPosts);
-          localStorage.setItem('posts', JSON.stringify(updatedPosts));
           setEditingIndex(null);
-          console.log('Updated successfully');
+         
         } else {
           console.log('Failed to update post');
         }
@@ -117,7 +141,8 @@ export function LoggedInUserProvider({ children }) {
     updateBody,
     updateImageUrl,
     saveUpdatedPost,
-    loading
+    loading,
+    fetchPosts
   };
 
   return (
