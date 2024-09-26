@@ -14,14 +14,8 @@ export function LoggedInUserProvider({ children }) {
     const userLogedInStorage = JSON.parse(localStorage.getItem('logedInUser'));
     if (userLogedInStorage && userLogedInStorage.isLoggedIn) {
       setLoggedInUser(userLogedInStorage);
-    }
-
-
-    const savedPosts = JSON.parse(localStorage.getItem('posts') || '[]');
-    if (savedPosts.length > 0) {
-      setPosts(savedPosts); 
- 
-    }
+      fetchPosts();
+    }  
     setLoading(false);
 
   }, []);
@@ -59,15 +53,15 @@ export function LoggedInUserProvider({ children }) {
     
   };
 
-  const handleDeletePost = async (index) => {
-    const post_id = posts[index].id;
-    console.log("post_id is ",post_id);
+  const handleDeletePost = async (id) => {
+    const post= posts.find(p => p.id ==id);
+    console.log("post_id is ",post.id);
     try{
-    const response = await fetch(`http://localhost:8000/posts/delete_post/${post_id}/`, {
+    const response = await fetch(`http://localhost:8000/posts/delete_post/${post.id}/`, {
       method: "DELETE",
     });
     if (response.status === 204){
-    const deletePosts = posts.filter((_, i) => i !== post_id);
+    const deletePosts = posts.filter((_, i) => i !== post.id);
     setPosts(deletePosts);
    
       
@@ -79,19 +73,8 @@ export function LoggedInUserProvider({ children }) {
   console.log("Error deleting post:", error);
 }
   };
-
-  const handleUpdatePost = (index) => {
-    const updatePosts = posts[index];
-    if (updatePosts.userEmail === loggedInUser.email) {
-      setEditingIndex(index);
-      setUpdateBody(updatePosts.postBody);
-      setUpdateImageUrl(updatePosts.postImageUrl);
-    }
-    console.log("the index is"+ index);
-  };
-
-  const saveUpdatedPost = async (index) => {
-    const postToUpdate = posts[index];
+  const saveUpdatedPost = async (id) => {
+    const postToUpdate = posts.find(p => p.id == id);
    
     if (postToUpdate && postToUpdate.user.email === loggedInUser.email) {
       const post_id = postToUpdate.id;
@@ -109,12 +92,19 @@ export function LoggedInUserProvider({ children }) {
         });
   
         if (response.ok) {
-          const updatedPost = await response.json();
-          const updatedPosts = [...posts];
-          updatedPosts[index].body = updatedPost.body;
-          updatedPosts[index].img_url = updatedPost.img_url;
-          setPosts(updatedPosts);
-          setEditingIndex(null);
+          const updatedPost = await response.json().post;  
+          console.log("update iss ",updatedPost );
+          postToUpdate.body = updatedPost.body;
+          postToUpdate.img_url = updatedPost.img_url;
+        const orignalPosts = posts.filter((post) => {
+            if(post.id == postToUpdate.id){
+              return false ;
+            }
+            return true ;
+          })
+          orignalPosts.push(updatedPost);
+          console.log(orignalPosts);
+          setPosts(orignalPosts);
          
         } else {
           console.log('Failed to update post');
@@ -133,7 +123,6 @@ export function LoggedInUserProvider({ children }) {
     posts,
     addNewPost,
     handleDeletePost,
-    handleUpdatePost,
     setEditingIndex,
     setUpdateBody,
     setUpdateImageUrl,

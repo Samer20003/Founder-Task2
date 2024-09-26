@@ -18,22 +18,23 @@ function AddAndUpdatePage() {
    
    const { id } = useParams();
    console.log("id value is  ", id);
-   const postIndex = posts.findIndex((p) => p.id == id);
-   console.log("post index value is  ", postIndex);
-   // useEffect(() => {
-   //    if (!loading && id && postIndex >= 0) {
-   //       const post = posts[postIndex];
-   //       setUpdateBody(post.body);
-   //       setUpdateImageUrl(post.img_url);
-   //       setEditingIndex(postIndex);
-   //    }
-   // }, [id, postIndex, posts, setUpdateBody, setUpdateImageUrl, setEditingIndex]);
+   const post= posts.find((p) => p.id == id);
+   console.log("post value is ", post)
+   console.log("post index value is  ", post.id);
+   useEffect(() => {
+      if (!loading && id && post.id >= 0) {
+         
+         setUpdateBody(post.body);
+         setUpdateImageUrl(post.img_url);
+         setEditingIndex(post.id);
+      }
+   }, [id, post, posts, setUpdateBody, setUpdateImageUrl, setEditingIndex]);
 
 
    const handleUpdate = (e) => {
   
       e.preventDefault();
-      saveUpdatedPost(postIndex);  // send the index of the post 
+      saveUpdatedPost(post.id);  // send the index of the post 
       navigate('/HomePage');
    };
 
