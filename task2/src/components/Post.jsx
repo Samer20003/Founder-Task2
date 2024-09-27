@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { useLogedInUser } from '../Context/logedInUser';
 import { useNavigate } from 'react-router-dom';
-
+import { usePostOperation } from '../Context/postsOperations'
 function Post() {
   const navigate = useNavigate();
-  const users = JSON.parse(localStorage.getItem("users") || "[]");
   const [postBody, setPostBody] = useState('');
   const [postImageUrl, setPostImageUrl] = useState('');
-  const { loggedInUser, addNewPost } = useLogedInUser();
-
-
-  const handlePostSubmit = async (e) => {
-
-    
+  const {loggedInUser} = useLogedInUser();
+  const {addNewPost} = usePostOperation();
+  
+  const handlePostSubmit = async (e) => {    
     try {
       const body = postBody;
       const img_url = postImageUrl;

@@ -8,11 +8,13 @@ import {LoggedInUserProvider} from "./Context/logedInUser"
 import ListView from './components/ListPosts';
 import AddAndUpdatePage from './pages/AddAndUpdatePage';
 import Protected from './Routes/Protected';
+import {PostOperationProvider} from "./Context/postsOperations";
 
 function App() {
 
   return (
     <LoggedInUserProvider>
+      <PostOperationProvider>
      <BrowserRouter>
       <Routes>
         <Route path="/LoginPage" element={<LoginPage />} />
@@ -41,12 +43,9 @@ function App() {
               </Protected>
             } 
           />
-
-
-     
-
       </Routes>
    </BrowserRouter>
+     </PostOperationProvider>
     </LoggedInUserProvider>
   );
 }

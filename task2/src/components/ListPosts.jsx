@@ -5,7 +5,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
-
+import {usePostOperation} from '../Context/postsOperations'
 
 
 function Mine({post}) {
@@ -18,12 +18,10 @@ function Mine({post}) {
   };
   const navigate = useNavigate();
   const { 
-    loggedInUser,
-    posts,
+   
     handleDeletePost,
-    setPosts,
-    fetchPosts
-  } = useLogedInUser();
+   
+  } = usePostOperation();
   return (
     <>
               <IconButton
@@ -75,23 +73,17 @@ function ListPosts() {
           const { 
             loggedInUser,
             posts,
-            handleDeletePost,
-            setPosts,
             fetchPosts
           } = useLogedInUser();
-          
-          const navigate = useNavigate();
-        
 
-        console.log(posts);
-        
-        useEffect(()=>{
+           useEffect(()=>{
 
           fetchPosts()
         },[])
+        
           return (
             <div className="row d-flex justify-content-center align-items-center pt-5 mt-5">
-              {posts.map((post, index) => (
+              {posts.map((post) => (
                 <div key={post.id} className="col-12 ms-4 d-flex justify-content-center mb-3">
                 
                   <div className="card mb-3" style={{ width: "550px" }}>
@@ -114,9 +106,6 @@ function ListPosts() {
                         </small>
                       </p>
                       <p className="card-text">{post.body}</p>
-                    
-
-                
                     </div>
                   </div>
                 </div>

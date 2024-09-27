@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLogedInUser } from '../Context/logedInUser';
+import { usePostOperation } from '../Context/postsOperations'
 import { useParams, useNavigate } from 'react-router-dom';
 import Post from '../components/Post';
 
@@ -7,34 +8,33 @@ function AddAndUpdatePage() {
    const navigate = useNavigate();
    const { 
     posts,
-    setUpdateBody,
-    setUpdateImageUrl,
-    updateBody,
-    updateImageUrl,
-    saveUpdatedPost,
-    setEditingIndex,
-    loading
    } = useLogedInUser();
    
+   const {
+      setUpdateBody,
+      setUpdateImageUrl,
+      updateBody,
+      updateImageUrl,
+      saveUpdatedPost,
+   } = usePostOperation();
    const { id } = useParams();
    console.log("id value is  ", id);
    const post= posts.find((p) => p.id == id);
-   console.log("post value is ", post)
-   console.log("post index value is  ", post.id);
-   useEffect(() => {
-      if (!loading && id && post.id >= 0) {
+
+   // useEffect(() => {
+   //    if ((!loading && id && post.id >= 0)) {
          
-         setUpdateBody(post.body);
-         setUpdateImageUrl(post.img_url);
-         setEditingIndex(post.id);
-      }
-   }, [id, post, posts, setUpdateBody, setUpdateImageUrl, setEditingIndex]);
+   //       setUpdateBody(post.body);
+   //       setUpdateImageUrl(post.img_url);
+   //       setEditingIndex(post.id);
+   //    }
+   // }, [id, post, posts, setUpdateBody, setUpdateImageUrl, setEditingIndex]);
 
 
    const handleUpdate = (e) => {
   
       e.preventDefault();
-      saveUpdatedPost(post.id);  // send the index of the post 
+      saveUpdatedPost(post.id);  
       navigate('/HomePage');
    };
 
@@ -43,7 +43,7 @@ function AddAndUpdatePage() {
          <div className='row justify-content-center'>
             <div className="col-12 col-md-10 col-lg-8">
               
-               <Post />
+            <Post />
             </div>   
          </div>
 
