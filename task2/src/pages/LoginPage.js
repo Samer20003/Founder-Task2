@@ -65,7 +65,7 @@ function LoginPage() {
                             onSubmit={validateForm}
                         >
                             <div className="mb-3">
-                                <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+                                <label htmlFor="exampleInputEmail1" className="form-label ">Email address</label>
                                 <input
                                     type="email"
                                     value={email}
