@@ -50,7 +50,7 @@ function Post() {
           <div className="card-body">
             <div className="form-floating">
               <textarea
-                className="form-control"
+                className="form-control text-dark"
                 placeholder="Leave a comment here"
                 id="floatingTextarea2"
                 style={{ height: "100px" }}
@@ -63,7 +63,7 @@ function Post() {
               placeholder="Enter image URL..."
               value={postImageUrl}
               onChange={(e) => setPostImageUrl(e.target.value)}
-              className="form-control mt-2"
+              className="form-control mt-2 text-dark "
             />
             <button
               className="btn btn-secondary mt-4 w-100 text-center"

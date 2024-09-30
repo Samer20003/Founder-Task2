@@ -1,117 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useLogedInUser } from '../Context/logedInUser';
-import IconButton from '@mui/material/IconButton';
-import MoreIcon from '@mui/icons-material/MoreVert'; 
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from 'react-router-dom';
-import {usePostOperation} from '../Context/postsOperations'
-
-
-function Mine({post}) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleClickForTheIcon = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const navigate = useNavigate();
-  const { 
-   
-    handleDeletePost,
-   
-  } = usePostOperation();
-  return (
-    <>
-              <IconButton
-                      size="large"
-                      aria-label="display more actions"
-                      edge="end"
-                      onClick={handleClickForTheIcon}
-                    >
-                      <MoreIcon />
-                    </IconButton>
-                   
-               
-                    <Menu
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                    >
-                    
-                      <MenuItem onClick={() => {
-                        console.log("clicked post",post);
-                        navigate(`/updateAndAddPost/${post.id}`)
-                       
-                        handleClose();
-                      }}>
-                        Edit
-                      </MenuItem>
-                      <MenuItem onClick={() => {
-                        handleDeletePost(post.id);
-                        handleClose();
-                      }} style={{ color: 'red' }}>
-                        Delete
-                      </MenuItem>
-                    </Menu>
-
-    </>
-  )
-}
+import PostShow from './PostShow';
 
 
 function ListPosts() {
-          const { 
-            loggedInUser,
-            posts,
-            fetchPosts
-          } = useLogedInUser();
+  const { posts, fetchPosts } = useLogedInUser();
 
-           useEffect(()=>{
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
-          fetchPosts()
-        },[])
-        
-          return (
-            <div className="row d-flex justify-content-center align-items-center pt-5 mt-5">
-              {posts.map((post) => (
-                <div key={post.id} className="col-12 ms-4 d-flex justify-content-center mb-3">
-                
-                  <div className="card mb-3" style={{ width: "550px" }}>
-                    {post.img_url && (
-                      <img src={post.img_url} className="card-img-top" alt="Post" />
-                    )}
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <h6 className="card-title"> {post.user.username}</h6>
-                    
-                        {loggedInUser && loggedInUser.email === post.user.email && (
-                          <>
-                            <Mine post={post} />
-                          </>
-                        )}
-                      </div>
-                      <p className="card-text pb=2">
-                        <small className="text-muted  ">
-                          Posted on {new Date(post.pup_date).toLocaleDateString()}
-                        </small>
-                      </p>
-                      <p className="card-text">{post.body}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          );
-        }
+  return (
+    <div className="row d-flex justify-content-center align-items-center pt-5 mt-5">
+      {posts.map((post) => (
+        <div  className="col-12 ms-4 d-flex justify-content-center mb-3">
+    
+        <PostShow post={post.body} userName={post.user.username} postImg = {post.img_url} postDate = {post.pup_date} postEmail = {post.user.email} postId = {post.id} />
+     
+        </div>
+      ))}
+    </div>
+  );
+}
 
-        export default ListPosts;
+export default ListPosts;

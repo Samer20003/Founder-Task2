@@ -9,7 +9,7 @@ import ListView from './components/ListPosts';
 import AddAndUpdatePage from './pages/AddAndUpdatePage';
 import Protected from './Routes/Protected';
 import {PostOperationProvider} from "./Context/postsOperations";
-
+import PostShow from './components/PostShow';
 function App() {
 
   return (
@@ -19,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/LoginPage" element={<LoginPage />} />
         <Route path="/Regstraion" element={<Regstraion />} />
+        <Route path="/PostShow" element={<PostShow />} />
         <Route 
             path="/HomePage" 
             element={

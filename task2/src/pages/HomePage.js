@@ -2,10 +2,11 @@ import React from 'react'
 import NavBar from '../components/NavBar'
 import ListPosts from '../components/ListPosts'
 import { useNavigate } from 'react-router-dom'
+import "../style/HomePage.css"
 function HomePage() {
   const navigate = useNavigate();
   return (
-    <div className ="container-fluid bg-dark-subtle ">
+    <div className ="container-fluid login-container">
       <div className='row'>
         <div className = "col-12">
       <NavBar/>

@@ -3,7 +3,7 @@ import { useLogedInUser } from '../Context/logedInUser';
 import { usePostOperation } from '../Context/postsOperations'
 import { useParams, useNavigate } from 'react-router-dom';
 import Post from '../components/Post';
-
+import NavBar from '../components/NavBar';
 function AddAndUpdatePage() {
    const navigate = useNavigate();
    const { 
@@ -42,7 +42,7 @@ function AddAndUpdatePage() {
       <div className='container-fluid pt-5 mt-5'>
          <div className='row justify-content-center'>
             <div className="col-12 col-md-10 col-lg-8">
-              
+              <NavBar />
             <Post />
             </div>   
          </div>

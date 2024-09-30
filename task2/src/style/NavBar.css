@@ -1,0 +1,7 @@
+.home-btn:hover,
+.profile-btn:hover,
+.logout-btn:hover{
+    background-color: green !important;
+    
+   
+}
